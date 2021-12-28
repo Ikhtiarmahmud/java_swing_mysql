@@ -66,7 +66,7 @@
           <text value="Save"/>
         </properties>
       </component>
-      <scrollpane id="93f87">
+      <scrollpane id="93f87" binding="table_1">
         <constraints>
           <grid row="1" column="2" row-span="3" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -105,15 +105,7 @@
           <text value="Delete"/>
         </properties>
       </component>
-      <component id="b3fea" class="javax.swing.JButton" default-binding="true">
-        <constraints>
-          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Search"/>
-        </properties>
-      </component>
-      <component id="1ce9" class="javax.swing.JTextField" binding="txtid">
+      <component id="1ce9" class="javax.swing.JTextField" binding="employeeId">
         <constraints>
           <grid row="6" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -121,6 +113,14 @@
         </constraints>
         <properties>
           <text value=""/>
+        </properties>
+      </component>
+      <component id="3ea14" class="javax.swing.JButton" binding="searchButton" default-binding="true">
+        <constraints>
+          <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Search"/>
         </properties>
       </component>
     </children>
