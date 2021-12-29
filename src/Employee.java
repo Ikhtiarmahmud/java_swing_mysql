@@ -10,6 +10,9 @@ public class Employee {
     private JTextField name;
     private JTextField salary;
     private JTextField mobile;
+    private JTextField date;
+    private JRadioButton radioButton1;
+    private JRadioButton radioButton2;
     private JButton saveButton;
     private JTable table1;
     private JButton updateButton;
@@ -70,23 +73,33 @@ public class Employee {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                String employeeName, employeeSalary, employeeMobile;
+                String payrollDate, employeeName, employeeSalary, employeeMobile, status;
 
                 employeeName = name.getText();
                 employeeSalary = salary.getText();
                 employeeMobile = mobile.getText();
+                payrollDate = date.getText();
+
+                if (radioButton1.isSelected() == true) {
+                    status = "Paid";
+                } else {
+                    status = "Due";
+                }
 
                 try {
-                    pst = con.prepareStatement("insert into employee(name,salary,mobile) values(?,?,?)");
-                    pst.setString(1, employeeName);
-                    pst.setString(2, employeeSalary);
-                    pst.setString(3, employeeMobile);
+                    pst = con.prepareStatement("insert into employee(payroll_date,name,salary,mobile,status) values(?,?,?,?,?)");
+                    pst.setString(1, payrollDate);
+                    pst.setString(2, employeeName);
+                    pst.setString(3, employeeSalary);
+                    pst.setString(4, employeeMobile);
+                    pst.setString(5, status);
                     pst.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Record Added!");
+                    JOptionPane.showMessageDialog(null, "Record Inserted Successfully!");
                     table_load();
                     name.setText("");
                     salary.setText("");
                     mobile.setText("");
+                    date.setText("");
                     name.requestFocus();
                 }
 
@@ -103,23 +116,34 @@ public class Employee {
 
                     String empid = employeeId.getText();
 
-                    pst = con.prepareStatement("select name, salary, mobile from employee where id = ?");
+                    pst = con.prepareStatement("select payroll_date, name, salary, mobile, status from employee where id = ?");
                     pst.setString(1, empid);
                     ResultSet rs = pst.executeQuery();
 
                     if(rs.next()==true)
                     {
-                        String empname = rs.getString(1);
-                        String emsalary = rs.getString(2);
-                        String emmobile = rs.getString(3);
+                        String payrollDate = rs.getString(1);
+                        String empname = rs.getString(2);
+                        String emsalary = rs.getString(3);
+                        String emmobile = rs.getString(4);
+                        String status = rs.getString(5);
 
+                        date.setText(payrollDate);
                         name.setText(empname);
                         salary.setText(emsalary);
                         mobile.setText(emmobile);
 
+                        if (status.equalsIgnoreCase("Paid")) {
+                            radioButton2.setSelected(false);
+                            radioButton1.setSelected(true);
+                        } else {
+                            radioButton1.setSelected(false);
+                            radioButton2.setSelected(true);
+                        }
                     }
                     else
                     {
+                        date.setText("");
                         name.setText("");
                         salary.setText("");
                         mobile.setText("");
@@ -135,22 +159,33 @@ public class Employee {
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String empid, employeeName, employeeSalary, employeeMobile;
+                String empid, payrollDate, employeeName, employeeSalary, employeeMobile, status;
+
+                payrollDate = date.getText();
                 employeeName = name.getText();
                 employeeSalary = salary.getText();
                 employeeMobile = mobile.getText();
                 empid = employeeId.getText();
 
+                if (radioButton1.isSelected() == true) {
+                    status = "Paid";
+                } else {
+                    status = "Due";
+                }
+
                 try {
-                    pst = con.prepareStatement("update employee set name = ?, salary = ?, mobile = ? where id = ?");
-                    pst.setString(1, employeeName);
-                    pst.setString(2, employeeSalary);
-                    pst.setString(3, employeeMobile);
-                    pst.setString(4, empid);
+                    pst = con.prepareStatement("update employee set payroll_date = ?, name = ?, salary = ?, mobile = ?, status = ? where id = ?");
+                    pst.setString(1, payrollDate);
+                    pst.setString(2, employeeName);
+                    pst.setString(3, employeeSalary);
+                    pst.setString(4, employeeMobile);
+                    pst.setString(5, status);
+                    pst.setString(6, empid);
 
                     pst.executeUpdate();
-                    JOptionPane.showMessageDialog(null, "Record Update!");
+                    JOptionPane.showMessageDialog(null, "Record Updated Successfully!");
                     table_load();
+                    date.setText("");
                     name.setText("");
                     salary.setText("");
                     mobile.setText("");
@@ -175,6 +210,7 @@ public class Employee {
                     pst.executeUpdate();
                     JOptionPane.showMessageDialog(null, "Record Delete Successfully!");
                     table_load();
+                    date.setText("");
                     name.setText("");
                     salary.setText("");
                     mobile.setText("");
